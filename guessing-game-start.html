@@ -39,13 +39,64 @@
     <div class="resultParas">
       <p class="guesses"></p>
       <p class="lastResult"></p>
-      <p class="lowOrHi"></p>
+      <p class="lowOrHigh"></p>
     </div>
 
     <script>
 
-      // Your JavaScript goes here
+      let randomNumber = Math.floor(Math.random()* 100) + 1;
 
+      const guesses = document.querySelector(".guesses");
+      const lastResult = document.querySelector(".lastResult");
+      const lowOrHigh = document.querySelector(".lowOrHigh");
+
+      const guessSubmit = document.querySelector(".guessSubmit");
+      const guessField = document.querySelector(".guessField");
+
+      let guessCount = 1;
+      let resetButton;
+
+      function checkGuess() {
+
+        // user input displayed on page
+        const userGuess =  Number(guessField.value);
+
+        if (guessCount === 1) {
+            guesses.textContent = "Previous guesses:";
+        }
+        guesses.textContent = `${guesses.textContent} ${userGuess}`
+
+        // guess is right
+        if (userGuess === randomNumber) {
+            lastResult.textContent = "Congratulations! You got it right!";
+            lastResult.style.backgroundColor = "green";
+            lowOrHigh.textContent = "";
+            setGameOver();
+
+        // used all your tries 
+        } else if (guessCount === 10) {
+            lastResult.textContent = "!!! Game Over !!!";
+            lowOrHigh.textContent = "";
+            setGameOver();
+
+        // guess was wrong 
+        } else {
+            lastResult.textContent = "Wrong";
+            lastResult.style.backgroundColor = "red";
+
+            // guess was wrong - and too high or low
+            if (userGuess < randomNumber) {
+                lowOrHigh.textContent = "Last guess was too low!";
+            } else if (userGuess > randomNumber) {
+                lowOrHigh.textContent = "Last guess was too high!";
+            }
+        }
+
+        guessCount++
+        guessField.value = "";
+        guessField.focus();
+      }
+     
     </script>
     
 </body>
